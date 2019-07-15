@@ -6,12 +6,11 @@ import com.compilation.game.screens.MainMenuScreen;
 
 public class MainGame extends Game {
 	public static SpriteBatch batch;
-
 	
 	@Override
 	public void create () {
-		batch = new SpriteBatch();		// initialize sprite batch
-		setScreen(new MainMenuScreen());		// change screen to main menu
+		batch = new SpriteBatch();					// initialize sprite batch
+		setScreen(new MainMenuScreen(this));	// change screen to main menu
 	}
 
 	@Override

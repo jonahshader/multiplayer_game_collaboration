@@ -8,9 +8,11 @@ import com.compilation.game.MainGame;
 
 //TODO: make this an actual main menu :))))))))
 public class MainMenuScreen implements Screen {
+    private final MainGame game;
     private Texture img;
 
-    public MainMenuScreen() {
+    public MainMenuScreen(MainGame game) {
+        this.game = game;
         img = new Texture("badlogic.jpg");
     }
 
