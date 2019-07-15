@@ -2,14 +2,16 @@ package com.compilation.game.screens;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Screen;
+import com.compilation.game.Entities.Player;
 
 public class GameScreen implements Screen {
 
     Engine engine = new Engine();
+    Player mainPlayer;
 
     @Override
     public void show() {
-
+        mainPlayer = new Player(engine);
     }
 
     @Override
@@ -39,6 +41,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        mainPlayer.Destroy(engine);
     }
 }
