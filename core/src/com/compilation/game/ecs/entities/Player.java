@@ -1,8 +1,8 @@
-package com.compilation.game.Entities;
+package com.compilation.game.ecs.entities;
 
 import com.badlogic.ashley.core.Engine;
 import com.compilation.game.AbstractClasses.EntityObject;
-import com.compilation.game.Components.*;
+import com.compilation.game.ecs.components.*;
 
 public class Player extends EntityObject {
 

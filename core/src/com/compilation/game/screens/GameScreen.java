@@ -2,7 +2,7 @@ package com.compilation.game.screens;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Screen;
-import com.compilation.game.Entities.Player;
+import com.compilation.game.ecs.entities.Player;
 
 public class GameScreen implements Screen {
 
