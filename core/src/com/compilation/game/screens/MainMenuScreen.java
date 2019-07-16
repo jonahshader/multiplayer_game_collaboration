@@ -2,7 +2,9 @@ package com.compilation.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,6 +20,9 @@ import com.compilation.game.ui.menu.mainmenuactions.PlayGameAction;
 import com.compilation.game.ui.menu.mainmenuactions.SettingsAction;
 
 public class MainMenuScreen implements Screen {
+    /* TODO: move WORLD_WIDTH and WORLD_HEIGHT to MainGame and don't make them 1920 by 1080
+    also differentiate between world coordinate and screen/gui coordinates by making separate viewports/cameras
+     */
     public static final int WORLD_WIDTH = 1920;
     public static final int WORLD_HEIGHT = 1080;
 
@@ -26,6 +31,8 @@ public class MainMenuScreen implements Screen {
     private final ShapeRenderer shapeBatch;
 
     private Menu mainMenu;
+
+    private Camera camera;
 
     private Viewport viewport;
 
@@ -38,9 +45,10 @@ public class MainMenuScreen implements Screen {
         shapeBatch = MainGame.shapeBatch;
 
         // construct objects
-        viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT);
-        viewport.getCamera().position.x = WORLD_WIDTH / 2f;
-        viewport.getCamera().position.y = WORLD_HEIGHT / 2f;
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
+        camera.position.x = WORLD_WIDTH / 2f;
+        camera.position.y = WORLD_HEIGHT / 2f;
         batch.setProjectionMatrix(viewport.getCamera().combined);
         shapeBatch.setProjectionMatrix(viewport.getCamera().combined);
 
@@ -81,6 +89,7 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         // render
         batch.begin();
+        viewport.apply(); // does this even do anything?
         mainMenu.draw();
         batch.end();
     }
@@ -89,11 +98,8 @@ public class MainMenuScreen implements Screen {
     public void resize(int width, int height) {
         viewport.update(width, height); // inform viewport on window size change.
         // recalculates the viewport parameters and automatically updates camera.
-
-        batch.setProjectionMatrix(viewport.getCamera().combined);
+        batch.setProjectionMatrix(viewport.getCamera().combined);   // apply new camera config to sprite batch and shape renderer
         shapeBatch.setProjectionMatrix(viewport.getCamera().combined);
-        System.out.println(viewport.getCamera());
-//        viewport.getCamera()
     }
 
     @Override
@@ -113,5 +119,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
+        // don't dispose fonts because they don't take a lot of memory and are likely to be used somewhere else
     }
 }
