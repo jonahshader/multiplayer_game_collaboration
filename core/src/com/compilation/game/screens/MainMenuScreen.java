@@ -4,33 +4,66 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.compilation.game.MainGame;
+import com.compilation.game.managers.FontManager;
+import com.compilation.game.ui.menu.Menu;
+import com.compilation.game.ui.menu.mainmenuactions.ExitGameAction;
+import com.compilation.game.ui.menu.mainmenuactions.PlayGameAction;
+import com.compilation.game.ui.menu.mainmenuactions.SettingsAction;
 
 public class MainMenuScreen implements Screen {
-    private final MainGame game;
-    private Texture img;
+    public static final int WORLD_WIDTH = 1920;
+    public static final int WORLD_HEIGHT = 1080;
 
-    private Stage stage;
-    private Table table;
+    private final MainGame game;
+    private final SpriteBatch batch;
+    private final ShapeRenderer shapeBatch;
+
+    private Menu mainMenu;
+
+    private Viewport viewport;
+
+    private BitmapFont titleFont, mainFont;
 
     public MainMenuScreen(MainGame game) {
+        // pass parameters
         this.game = game;
+        batch = MainGame.batch;
+        shapeBatch = MainGame.shapeBatch;
 
-        stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
+        // construct objects
+        viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT);
+        viewport.getCamera().position.x = WORLD_WIDTH / 2f;
+        viewport.getCamera().position.y = WORLD_HEIGHT / 2f;
+        batch.setProjectionMatrix(viewport.getCamera().combined);
+        shapeBatch.setProjectionMatrix(viewport.getCamera().combined);
 
-        table = new Table();
-        table.setFillParent(true);  // take up entire screen
-        stage.addActor(table); // add it to the stage
+        // generate fonts
+        FreeTypeFontGenerator.FreeTypeFontParameter param = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        param.size = 148;
+        titleFont = MainGame.fontManager.generateFont(FontManager.FontType.Title, param);
+        titleFont.getData().setScale(1/2.0f);
+        titleFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        table.setDebug(true); // draw debug lines
+        param = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        param.size = 108;
+        mainFont = MainGame.fontManager.generateFont(FontManager.FontType.Main, param);
+        mainFont.getData().setScale(1/2.0f);
+        mainFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
 
-        // add widgets to the table here.
+        mainMenu = new Menu(mainFont, 78, WORLD_HEIGHT - 300, (108 / 2f) * 1.5f, batch, shapeBatch, viewport);
+        mainMenu.addMenuItem(new PlayGameAction(game), "Play Game");
+        mainMenu.addMenuItem(new SettingsAction(), "Settings");
+        mainMenu.addMenuItem(new ExitGameAction(), "Exit");
 
-
-        img = new Texture("badlogic.jpg");
+        // set input processor to the menu
+        Gdx.input.setInputProcessor(mainMenu);
     }
 
     @Override
@@ -40,17 +73,27 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.5f, 0.75f, 1f, 1f);
+        // do calculations first
+        mainMenu.run(delta);
+
+        // clear background
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//        MainGame.batch.begin();
-//        MainGame.batch.draw(img, 0, 0);
-//        MainGame.batch.end();
-        stage.draw();
+        // render
+        batch.begin();
+        mainMenu.draw();
+        batch.end();
     }
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
+        viewport.update(width, height); // inform viewport on window size change.
+        // recalculates the viewport parameters and automatically updates camera.
+
+        batch.setProjectionMatrix(viewport.getCamera().combined);
+        shapeBatch.setProjectionMatrix(viewport.getCamera().combined);
+        System.out.println(viewport.getCamera());
+//        viewport.getCamera()
     }
 
     @Override
@@ -70,6 +113,5 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        img.dispose();
     }
 }
