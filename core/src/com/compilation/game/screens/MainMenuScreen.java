@@ -88,8 +88,9 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         // render
-        batch.begin();
         viewport.apply(); // does this even do anything?
+        batch.setProjectionMatrix(viewport.getCamera().combined);
+        batch.begin();
         mainMenu.draw();
         batch.end();
     }
@@ -97,9 +98,6 @@ public class MainMenuScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height); // inform viewport on window size change.
-        // recalculates the viewport parameters and automatically updates camera.
-        batch.setProjectionMatrix(viewport.getCamera().combined);   // apply new camera config to sprite batch and shape renderer
-        shapeBatch.setProjectionMatrix(viewport.getCamera().combined);
     }
 
     @Override
