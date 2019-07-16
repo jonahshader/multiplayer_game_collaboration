@@ -14,6 +14,6 @@ public class PlayGameAction implements MenuAction {
     @Override
     public void executeAction() {
         System.out.println("TODO: start game by changing screen");
-        game.setScreen(new GameScreen());
+        game.setScreen(new GameScreen(game));
     }
 }
