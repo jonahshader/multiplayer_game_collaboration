@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.compilation.game.MainGame;
 import com.compilation.game.managers.FontManager;
+import com.compilation.game.managers.SqlManager;
 import com.compilation.game.ui.menu.Menu;
 import com.compilation.game.ui.menu.mainmenuactions.ExitGameAction;
 import com.compilation.game.ui.menu.mainmenuactions.PlayGameAction;
