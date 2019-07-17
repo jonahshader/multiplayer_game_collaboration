@@ -31,10 +31,20 @@ public class SqlManager {
             connection = DriverManager.getConnection(connectionUrl);
 
             Statement statement = connection.createStatement();
-            resultSet = statement.executeQuery(pSql);
+            boolean success = statement.execute(pSql);
+
+            if(!success){
+                connection.close();
+                return null;
+            }
+
+            resultSet = statement.getResultSet();
 
             resultSet.next();
-            return (T) resultSet.getObject(0);
+            var Output = (T) resultSet.getObject(1);
+            connection.close();
+            return Output;
+
         }catch (SQLException e){
             return null;
         }
@@ -49,13 +59,17 @@ public class SqlManager {
 
             Statement statement = connection.createStatement();
             resultSet = statement.executeQuery(pSql);
+
+
             ResultSetMetaData metaData = resultSet.getMetaData();
 
             resultSet.next();
             ArrayList<T> returnResults = new ArrayList<T>();
-            for(int x = 0; x < metaData.getColumnCount(); x++){
-                returnResults.add((T) resultSet.getObject(0));
+            for(int x = 1; x <= metaData.getColumnCount(); x++){
+                returnResults.add((T) resultSet.getObject(x));
             }
+
+            connection.close();
             return returnResults;
         }catch (SQLException e){
             return null;
@@ -68,9 +82,9 @@ public class SqlManager {
             connection = DriverManager.getConnection(connectionUrl);
 
             Statement statement = connection.createStatement();
-            statement.executeQuery(pSql);
-
-            return true;
+            boolean success = statement.execute(pSql);
+            connection.close();
+            return success;
         }catch (SQLException e){
             return false;
         }

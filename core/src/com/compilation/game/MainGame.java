@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.compilation.game.managers.FontManager;
+import com.compilation.game.screens.LoginScreen;
 import com.compilation.game.screens.MainMenuScreen;
 
 public class MainGame extends Game {
@@ -16,7 +17,7 @@ public class MainGame extends Game {
 		batch = new SpriteBatch();
 		shapeBatch = new ShapeRenderer();
 		fontManager = new FontManager();
-		setScreen(new MainMenuScreen(this));	// change screen to main menu
+		setScreen(new LoginScreen(this));	// change screen to main menu
 	}
 
 	@Override
