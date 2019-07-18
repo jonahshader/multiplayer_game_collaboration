@@ -9,12 +9,6 @@ import com.compilation.game.MainGame;
 
 import java.util.ArrayList;
 
-/*
-TODO: add a list of entities here filtered by collidable, or add a listener to when an entity is created with collision
- or an entity gains collision. Determine if the entity exists within this chunk. If it does, consider it for collision
- with this chunk and the neighboring 8 chunks.
- */
-
 public class WorldChunk {
     public static final int CHUNK_SIZE = 64;
     public static final int TILE_SIZE = 32; // size in
@@ -68,6 +62,10 @@ public class WorldChunk {
 
     public long getYIndex() {
         return y;
+    }
+
+    public String getKey() {
+        return x + " " + y;
     }
 
 //    public void renderBackground() {

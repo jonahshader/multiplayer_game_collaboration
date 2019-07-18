@@ -1,12 +1,18 @@
 package com.compilation.game.world;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class World {
     private static World ourInstance;
 
-    private WorldChunk[][] loadedChunks = new WorldChunk[3][3]; // 3 by 3 grid of world chunks will be loaded
+    private ArrayList<WorldChunk> loadedChunks;
+    private HashMap<String, WorldChunk> chunkDictionary;
     private WorldGenerator worldGen;
 
     private World() {
+        loadedChunks = new ArrayList<>(9);
+        chunkDictionary = new HashMap<>(9);
         worldGen = new WorldGenerator();
     }
 
