@@ -23,9 +23,10 @@ public class WorldChunk {
 
     private boolean[][] collisionMap; // 2d boolean array for fast access for collision detection
 
-    private long x, y; // x y index of this chunk
+    private int x;
+    private int y; // x y index of this chunk
 
-    public WorldChunk(long x, long y, MainGame game) {
+    public WorldChunk(int x, int y, MainGame game) {
         this.x = x;
         this.y = y;
         this.game = game;
@@ -48,19 +49,19 @@ public class WorldChunk {
         neighboringChunks.add(neighbor);
     }
 
-    public long getXInUnits() {
+    public int getXInUnits() {
         return x * CHUNK_SIZE;
     }
 
-    public long getYInUnits() {
+    public int getYInUnits() {
         return y * CHUNK_SIZE;
     }
 
-    public long getXIndex() {
+    public int getXIndex() {
         return x;
     }
 
-    public long getYIndex() {
+    public int getYIndex() {
         return y;
     }
 
