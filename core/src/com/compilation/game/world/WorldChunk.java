@@ -1,14 +1,10 @@
 package com.compilation.game.world;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.compilation.game.MainGame;
 
 import java.util.ArrayList;
@@ -33,7 +29,7 @@ public class WorldChunk {
 
     private boolean[][] collisionMap; // 2d boolean array for fast access for collision detection
 
-    private long x, y; // x y coordinate of this chunk (from bottom left)
+    private long x, y; // x y index of this chunk
 
     public WorldChunk(long x, long y, MainGame game) {
         this.x = x;
@@ -56,6 +52,22 @@ public class WorldChunk {
 
     public void addNeighboringChunk(WorldChunk neighbor) {
         neighboringChunks.add(neighbor);
+    }
+
+    public long getXInUnits() {
+        return x * CHUNK_SIZE;
+    }
+
+    public long getYInUnits() {
+        return y * CHUNK_SIZE;
+    }
+
+    public long getXIndex() {
+        return x;
+    }
+
+    public long getYIndex() {
+        return y;
     }
 
 //    public void renderBackground() {

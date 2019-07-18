@@ -41,7 +41,7 @@ public class SqlManager {
             resultSet = statement.getResultSet();
 
             resultSet.next();
-            var Output = (T) resultSet.getObject(1);
+            T Output = (T) resultSet.getObject(1);
             connection.close();
             return Output;
 
