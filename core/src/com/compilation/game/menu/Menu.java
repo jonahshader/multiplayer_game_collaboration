@@ -1,4 +1,4 @@
-package com.compilation.game.ui.menu;
+package com.compilation.game.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

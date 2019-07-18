@@ -2,29 +2,13 @@ package com.compilation.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.compilation.game.MainGame;
-import com.compilation.game.managers.FontManager;
 import com.compilation.game.managers.SqlManager;
-import com.compilation.game.ui.menu.Menu;
-import com.compilation.game.ui.menu.mainmenuactions.ExitGameAction;
-import com.compilation.game.ui.menu.mainmenuactions.PlayGameAction;
-import com.compilation.game.ui.menu.mainmenuactions.SettingsAction;
-
-import java.sql.Connection;
 
 public class LoginScreen implements Screen {
 

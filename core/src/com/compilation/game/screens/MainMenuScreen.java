@@ -14,11 +14,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.compilation.game.MainGame;
 import com.compilation.game.managers.FontManager;
-import com.compilation.game.managers.SqlManager;
-import com.compilation.game.ui.menu.Menu;
-import com.compilation.game.ui.menu.mainmenuactions.ExitGameAction;
-import com.compilation.game.ui.menu.mainmenuactions.PlayGameAction;
-import com.compilation.game.ui.menu.mainmenuactions.SettingsAction;
+import com.compilation.game.menu.Menu;
+import com.compilation.game.menu.mainmenuactions.ExitGameAction;
+import com.compilation.game.menu.mainmenuactions.PlayGameAction;
+import com.compilation.game.menu.mainmenuactions.SettingsAction;
 
 public class MainMenuScreen implements Screen {
     /* TODO: move WORLD_WIDTH and WORLD_HEIGHT to MainGame and don't make them 1920 by 1080

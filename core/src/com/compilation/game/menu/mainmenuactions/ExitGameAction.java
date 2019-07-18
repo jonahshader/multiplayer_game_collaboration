@@ -1,7 +1,7 @@
-package com.compilation.game.ui.menu.mainmenuactions;
+package com.compilation.game.menu.mainmenuactions;
 
 import com.badlogic.gdx.Gdx;
-import com.compilation.game.ui.menu.MenuAction;
+import com.compilation.game.menu.MenuAction;
 
 public class ExitGameAction implements MenuAction {
     @Override

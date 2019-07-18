@@ -16,8 +16,6 @@ public class World {
         worldGen = new WorldGenerator();
     }
 
-
-
     public static World getInstance() {
         if (ourInstance == null)
             ourInstance = new World();
@@ -27,6 +25,8 @@ public class World {
     public void run() {
         //TODO: generify the following pseudocode to work on ALL entities that are non static (and the static ones that
         // have collision, but that might be a little different).
+        //TODO: along with the Collidable component, we should add a Trigger component that has a collision rectangle but
+        // only checks if other entities collided with it. it would be used to trigger events or open doors/etc.
         /*
         pseudo code:
         check if the player has entered a new chunk.

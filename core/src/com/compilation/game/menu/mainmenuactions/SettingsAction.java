@@ -1,6 +1,6 @@
-package com.compilation.game.ui.menu.mainmenuactions;
+package com.compilation.game.menu.mainmenuactions;
 
-import com.compilation.game.ui.menu.MenuAction;
+import com.compilation.game.menu.MenuAction;
 
 public class SettingsAction implements MenuAction {
     @Override
