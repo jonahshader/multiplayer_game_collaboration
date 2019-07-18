@@ -12,10 +12,9 @@ public class Player extends EntityObject {
 
         entity.add(new ChunkPosition());
         entity.add(new ExactPosition());
-        entity.add(new GridPosition());
         entity.add(new Graphic(new Sprite()));
         entity.add(new Velocity());
-        entity.add(new CollisionBox());
+        entity.add(new CollisionBox(null));
     }
 
 }
