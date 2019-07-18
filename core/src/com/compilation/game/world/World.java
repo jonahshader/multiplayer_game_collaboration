@@ -19,6 +19,8 @@ public class World {
     }
 
     public void run() {
+        //TODO: generify the following pseudocode to work on ALL entities that are non static (and the static ones that
+        // have collision, but that might be a little different).
         /*
         pseudo code:
         check if the player has entered a new chunk.
@@ -27,7 +29,8 @@ public class World {
             generate the base world from the worldGen.
             ask the database if this chunk is unmodified from the WorldGenerator or if its modified.
             if its modified:
-                download the permutations from the database and apply them over the existing world data from the worldGen.
+                download the permutations from the database and apply them over the existing world data from the
+                worldGen.
 
 
 
