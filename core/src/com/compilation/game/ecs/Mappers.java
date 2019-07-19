@@ -10,6 +10,7 @@ public class Mappers {
     public static final ComponentMapper<Acceleration> accelerationMpr = ComponentMapper.getFor(Acceleration.class);
     public static final ComponentMapper<CollisionBox> collisionBoxMpr = ComponentMapper.getFor(CollisionBox.class);
     public static final ComponentMapper<Graphic> graphicMpr = ComponentMapper.getFor(Graphic.class);
+    public static final ComponentMapper<MaxSpeed> maxSpeedMpr = ComponentMapper.getFor(MaxSpeed.class);
     public static final ComponentMapper<PlayerControlled> playerControlledMpr = ComponentMapper.getFor(PlayerControlled.class);
     public static final ComponentMapper<Position> positionMpr = ComponentMapper.getFor(Position.class);
     public static final ComponentMapper<Spectating> spectatingMpr = ComponentMapper.getFor(Spectating.class);
