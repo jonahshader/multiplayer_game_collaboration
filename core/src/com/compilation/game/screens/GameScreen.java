@@ -4,16 +4,13 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.GL20;
 import com.compilation.game.MainGame;
-import com.compilation.game.ecs.entities.Player;
 
 public class GameScreen implements Screen {
 
     private final MainGame game;
 
     private Engine engine = new Engine();
-    private Player mainPlayer;
 
     public GameScreen(MainGame game) {
         this.game = game;
@@ -23,7 +20,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        mainPlayer = new Player(engine);
+
     }
 
     @Override
@@ -54,6 +51,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        mainPlayer.Destroy(engine);
+
     }
 }
