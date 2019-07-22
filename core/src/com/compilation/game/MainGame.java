@@ -17,7 +17,8 @@ public class MainGame extends Game {
 		batch = new SpriteBatch();
 		shapeBatch = new ShapeRenderer();
 		fontManager = new FontManager();
-		setScreen(new LoginScreen(this));	// change screen to main menu
+//		setScreen(new LoginScreen(this));
+		setScreen(new MainMenuScreen(this)); //bypass login for testing
 	}
 
 	@Override

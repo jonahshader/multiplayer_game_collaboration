@@ -7,22 +7,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class World {
-    private static World ourInstance;
-
     private ArrayList<WorldChunk> loadedChunks;
     private HashMap<String, WorldChunk> chunkDictionary;
     private WorldGenerator worldGen;
 
-    private World() {
+    private MainGame game;
+
+    public World(MainGame game) {
+        this.game = game;
         loadedChunks = new ArrayList<>(9);
         chunkDictionary = new HashMap<>(9);
         worldGen = new WorldGenerator();
-    }
 
-    public static World getInstance() {
-        if (ourInstance == null)
-            ourInstance = new World();
-        return ourInstance;
+        loadedChunks.add(new WorldChunk(0, 0, game));
     }
 
     public void run() {
@@ -51,8 +48,11 @@ public class World {
          */
     }
 
-    public void render(Camera view) {
+    public void render() {
 //        MainGame.batch.setProjectionMatrix(view.combined);
+        for (WorldChunk worldChunk : loadedChunks) {
+            worldChunk.renderBackground();
+        }
     }
 
 }
