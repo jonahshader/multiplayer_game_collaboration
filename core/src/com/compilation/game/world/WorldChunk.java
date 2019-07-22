@@ -69,11 +69,11 @@ public class WorldChunk {
         return x + " " + y;
     }
 
-//    public void renderBackground() {
-//        mapRenderer.render(backgroundLayers);
-//    }
-//
-//    public void renderForeground() {
-//        mapRenderer.render(foregroundLayers);
-//    }
+    public void renderBackground() {
+        mapRenderer.render(backgroundLayers);
+    }
+
+    public void renderForeground() {
+        mapRenderer.render(foregroundLayers);
+    }
 }

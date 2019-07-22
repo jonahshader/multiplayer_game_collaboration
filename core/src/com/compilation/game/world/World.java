@@ -1,5 +1,8 @@
 package com.compilation.game.world;
 
+import com.badlogic.gdx.graphics.Camera;
+import com.compilation.game.MainGame;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -46,6 +49,10 @@ public class World {
         NOTE: this should probably be implemented into the collision system or into the movement system when those are
         created.
          */
+    }
+
+    public void render(Camera view) {
+//        MainGame.batch.setProjectionMatrix(view.combined);
     }
 
 }
