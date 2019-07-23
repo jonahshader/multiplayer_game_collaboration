@@ -1,6 +1,7 @@
 package com.compilation.game.world;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.compilation.game.MainGame;
 
 import java.util.ArrayList;
@@ -48,10 +49,13 @@ public class World {
          */
     }
 
-    public void render() {
-//        MainGame.batch.setProjectionMatrix(view.combined);
+    public void render(OrthographicCamera cam) {
+//        cam.zoom = 32;
+//        cam.translate(0.9f, 0);
+//        MainGame.batch.setProjectionMatrix(cam.combined);
         for (WorldChunk worldChunk : loadedChunks) {
-            worldChunk.renderBackground();
+
+            worldChunk.renderBackground(cam);
         }
     }
 

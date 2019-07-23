@@ -1,5 +1,7 @@
 package com.compilation.game.world;
 
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapLayers;
@@ -52,11 +54,14 @@ public class WorldChunk {
 //        Texture spriteSheet = new Texture("textures/project files/terrain_basic.png");
 
         TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-        cell.setTile(new StaticTiledMapTile(atlas.findRegion("grass_1.png")));
-        background.setCell(0, 0, cell);
-        background.setCell(1, 0, cell);
+        cell.setTile(new StaticTiledMapTile(atlas.findRegion("grass")));
+        for (int i = 0; i < CHUNK_SIZE; i++) {
+            for (int j = 0; j < CHUNK_SIZE; j++) {
+                background.setCell(i, j, cell);
+            }
+        }
 
-        mapRenderer = new OrthogonalTiledMapRenderer(map, 1f/TILE_SIZE, MainGame.batch); // one tile translates to one unit in distance
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 1, MainGame.batch); // one tile translates to one unit in distance
     }
 
     public void addNeighboringChunk(WorldChunk neighbor) {
@@ -83,8 +88,9 @@ public class WorldChunk {
         return x + " " + y;
     }
 
-    public void renderBackground() {
+    public void renderBackground(OrthographicCamera cam) {
 //        mapRenderer.
+        mapRenderer.setView(cam);
         mapRenderer.render(backgroundLayers);
     }
 
