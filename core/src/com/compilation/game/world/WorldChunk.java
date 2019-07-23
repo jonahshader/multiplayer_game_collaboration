@@ -61,7 +61,7 @@ public class WorldChunk {
             }
         }
 
-        mapRenderer = new OrthogonalTiledMapRenderer(map, 1, MainGame.batch); // one tile translates to one unit in distance
+        mapRenderer = new OrthogonalTiledMapRenderer(map, 1, MainGame.batch);
     }
 
     public void addNeighboringChunk(WorldChunk neighbor) {

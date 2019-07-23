@@ -53,6 +53,7 @@ public class World {
 //        cam.zoom = 32;
 //        cam.translate(0.9f, 0);
 //        MainGame.batch.setProjectionMatrix(cam.combined);
+        cam.update(); // make sure the cam is updated before using it
         for (WorldChunk worldChunk : loadedChunks) {
 
             worldChunk.renderBackground(cam);
