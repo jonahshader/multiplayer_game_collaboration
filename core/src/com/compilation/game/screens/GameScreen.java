@@ -1,6 +1,5 @@
 package com.compilation.game.screens;
 
-import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,8 +12,6 @@ import com.compilation.game.world.World;
 public class GameScreen implements Screen {
 
     private final MainGame game;
-
-    private Engine engine = new Engine();
 
     private World world;
     private Viewport viewport;
