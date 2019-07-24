@@ -70,8 +70,8 @@ public class MainMenuScreen implements Screen {
         mainMenu.addMenuItem(new SettingsAction(), "Settings");
         mainMenu.addMenuItem(new ExitGameAction(), "Exit");
 
-        // set input processor to the menu
-        Gdx.input.setInputProcessor(mainMenu);
+        // add menu to input multiplexer
+        MainGame.multiplexer.addProcessor(mainMenu);
     }
 
     @Override
