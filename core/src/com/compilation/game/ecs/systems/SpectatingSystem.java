@@ -15,6 +15,10 @@ public class SpectatingSystem extends EntitySystem {
     private ImmutableArray<Entity> entities;
     private OrthographicCamera cam;
 
+    public SpectatingSystem(OrthographicCamera cam) {
+        this.cam = cam;
+    }
+
     public void addedToEngine(Engine engine) {
         // get all entities that have both Spectating and Position components
         entities = engine.getEntitiesFor(Family.all(Spectating.class, Position.class).get());
@@ -29,5 +33,9 @@ public class SpectatingSystem extends EntitySystem {
             Position position = positionMpr.get(entity);
             cam.position.set(position.x, position.y, 1f);
         }
+    }
+
+    public void setCam(OrthographicCamera cam) {
+        this.cam = cam;
     }
 }

@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.Pool;
 public class MaxSpeed implements Component, Pool.Poolable {
     public float speed = 0f;
 
-    public MaxSpeed(float speed, float y) {
+    public MaxSpeed(float speed) {
         this.speed = speed;
     }
 
