@@ -28,10 +28,7 @@ public class PlayerControlledSystem extends EntitySystem implements InputProcess
     }
 
     public void update(float deltaTime) {
-        for (Entity entity : entities) {
-            Acceleration acceleration = accelerationMpr.get(entity);
-            //TODO: figure out how to get multiplexer involved
-        }
+        // nothing :) (all handled by keyDown)
     }
 
     @Override
