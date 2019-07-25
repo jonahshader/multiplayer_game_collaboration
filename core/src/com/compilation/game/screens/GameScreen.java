@@ -7,10 +7,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.compilation.game.MainGame;
+import com.compilation.game.ecs.ECSEngine;
 import com.compilation.game.world.World;
 
 public class GameScreen implements Screen {
     private final MainGame game;
+
+    private ECSEngine engine;
 
     private World world;
     private Viewport viewport;
@@ -22,6 +25,7 @@ public class GameScreen implements Screen {
         cam = new OrthographicCamera();
         viewport = new ScreenViewport(cam);
         world = new World(game);
+        engine = new ECSEngine(cam);
     }
 
     @Override
@@ -36,6 +40,7 @@ public class GameScreen implements Screen {
         cam.translate(1f * cam.zoom, 0f);
         cam.zoom *= 0.99;
         world.render(cam);
+        engine.update(delta);
     }
 
     @Override
