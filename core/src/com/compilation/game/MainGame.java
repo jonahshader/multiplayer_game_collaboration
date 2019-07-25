@@ -14,9 +14,9 @@ public class MainGame extends Game {
 	public static ShapeRenderer shapeBatch;
 	public static FontManager fontManager;
 	public static InputMultiplexer multiplexer;
-	
+
 	@Override
-	public void create () {
+	public void create() {
 		batch = new SpriteBatch();
 		shapeBatch = new ShapeRenderer();
 		fontManager = new FontManager();
@@ -27,12 +27,12 @@ public class MainGame extends Game {
 	}
 
 	@Override
-	public void render () {
+	public void render() {
 		super.render();
 	}
-	
+
 	@Override
-	public void dispose () {
+	public void dispose() {
 		batch.dispose();
 		shapeBatch.dispose();
 		fontManager.dispose();
