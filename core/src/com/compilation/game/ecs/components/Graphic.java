@@ -10,6 +10,7 @@ public class Graphic implements Component, Pool.Poolable {
     public Graphic(Sprite sprite) {
         this.sprite = sprite;
     }
+    public Graphic() {}
 
     @Override
     public void reset() {

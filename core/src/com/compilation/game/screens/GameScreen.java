@@ -1,13 +1,17 @@
 package com.compilation.game.screens;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.compilation.game.MainGame;
 import com.compilation.game.ecs.ECSEngine;
+import com.compilation.game.ecs.components.*;
 import com.compilation.game.world.World;
 
 public class GameScreen implements Screen {
@@ -26,6 +30,27 @@ public class GameScreen implements Screen {
         viewport = new ScreenViewport(cam);
         world = new World(game);
         engine = new ECSEngine(cam);
+
+        Entity player = engine.createEntity();
+        Position position = engine.createComponent(Position.class);
+        Velocity velocity = engine.createComponent(Velocity.class);
+        Acceleration acceleration = engine.createComponent(Acceleration.class);
+        PlayerControlled playerControlled = engine.createComponent(PlayerControlled.class);
+        Spectating spectating = engine.createComponent(Spectating.class);
+        Graphic graphic = engine.createComponent(Graphic.class);
+
+        playerControlled.acceleration = 1024;
+        graphic.sprite = new Sprite(new Texture("textures/project files/terrain_basic.png"));
+
+        player.add(position);
+        player.add(velocity);
+        player.add(acceleration);
+        player.add(playerControlled);
+        player.add(spectating);
+        player.add(graphic);
+
+        engine.addEntity(player);
+//        engine.add
     }
 
     @Override
@@ -37,8 +62,8 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.25f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        cam.translate(1f * cam.zoom, 1f * cam.zoom);
-        cam.zoom *= 1.001;
+//        cam.translate(1f * cam.zoom, 1f * cam.zoom);
+//        cam.zoom *= 1.001;
         world.render(cam);
         engine.update(delta);
     }
