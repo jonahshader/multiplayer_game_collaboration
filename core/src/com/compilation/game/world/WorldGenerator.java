@@ -22,7 +22,7 @@ public class WorldGenerator implements Serializable {
         double getValue(long x, long y) {
             double xPos = (x / scale) + xOffset;
             double yPos = (y / scale) + yOffset;
-            return SimplexNoise.noise(xPos, yPos);
+            return SimplexNoise.noise(xPos, yPos) * magnitude;
         }
     }
 
@@ -50,10 +50,10 @@ public class WorldGenerator implements Serializable {
     public WorldGenerator() {
         // create octaves for terrain
         terrainOctaveSet = new OctaveSet();
-        terrainOctaveSet.octaves.add(new Octave(100, 1)); // continental
+        terrainOctaveSet.octaves.add(new Octave(300, 1)); // continental
 
         for (int i = 0; i < 6; i++) {
-            terrainOctaveSet.octaves.add(new Octave(Math.pow(0.5, i), Math.pow(0.5, i + 1)));
+            terrainOctaveSet.octaves.add(new Octave(Math.pow(0.5, i) * 20, .25 * Math.pow(0.5, i)));
         }
 
         // create octaves for temperature

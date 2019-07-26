@@ -29,7 +29,7 @@ public class WorldChunk {
     private int x;
     private int y; // x y index of this chunk
 
-    public WorldChunk(int x, int y, MainGame game) {
+    public WorldChunk(int x, int y, MainGame game, WorldGenerator worldGenerator) {
         this.x = x;
         this.y = y;
         this.game = game;
@@ -52,7 +52,9 @@ public class WorldChunk {
         cell.setTile(new StaticTiledMapTile(atlas.findRegion("grass")));
         for (int i = 0; i < CHUNK_SIZE; i++) {
             for (int j = 0; j < CHUNK_SIZE; j++) {
-                background.setCell(i, j, cell);
+                if (worldGenerator.getTerrainHeight(i + CHUNK_SIZE * x, j + CHUNK_SIZE * y) > 0) {
+                    background.setCell(i, j, cell);
+                }
             }
         }
 

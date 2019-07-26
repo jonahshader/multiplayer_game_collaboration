@@ -15,7 +15,7 @@ import static com.compilation.game.ecs.Mappers.accelerationMpr;
 import static com.compilation.game.ecs.Mappers.playerControlledMpr;
 
 public class PlayerControlledSystem extends EntitySystem implements InputProcessor {
-    public static final float invSqrt2 = (float) (1.0/Math.sqrt(2));
+    private static final float invSqrt2 = (float) (1.0/Math.sqrt(2)); // cache value for frequent use
     private ImmutableArray<Entity> entities;
 
     public PlayerControlledSystem() {
@@ -28,11 +28,50 @@ public class PlayerControlledSystem extends EntitySystem implements InputProcess
     }
 
     public void update(float deltaTime) {
-        // nothing :) (all handled by keyDown)
+        // nothing :) (all handled by keyDown and keyUp)
     }
 
     @Override
     public boolean keyDown(int keycode) {
+        return handleKeyInput(keycode);
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return handleKeyInput(keycode);
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+
+    private boolean handleKeyInput(int keycode) {
         boolean handled = false;
         for (Entity entity : entities) {
             Acceleration acceleration = accelerationMpr.get(entity);
@@ -71,46 +110,5 @@ public class PlayerControlledSystem extends EntitySystem implements InputProcess
             }
         }
         return handled;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        if (entities.size() > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        if (entities.size() > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
     }
 }

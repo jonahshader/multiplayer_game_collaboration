@@ -20,7 +20,7 @@ public class World {
         chunkDictionary = new HashMap<>(9);
         worldGen = new WorldGenerator();
 
-        loadedChunks.add(new WorldChunk(0, 0, game));
+        loadedChunks.add(new WorldChunk(0, 0, game, worldGen));
     }
 
     public void run() {

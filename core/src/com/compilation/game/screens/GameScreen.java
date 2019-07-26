@@ -37,8 +37,8 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.25f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        cam.translate(1f * cam.zoom, 0f);
-        cam.zoom *= 0.99;
+        cam.translate(1f * cam.zoom, 1f * cam.zoom);
+        cam.zoom *= 1.001;
         world.render(cam);
         engine.update(delta);
     }
