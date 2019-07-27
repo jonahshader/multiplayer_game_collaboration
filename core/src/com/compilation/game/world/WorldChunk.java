@@ -45,14 +45,14 @@ public class WorldChunk {
         layers.add(background);
         layers.add(foreground);
 
-        TextureAtlas atlas = new TextureAtlas("textures/project files/terrain_basic.pack");
+        TextureAtlas atlas = new TextureAtlas("textures/terrain_basic.pack");
 //        Texture spriteSheet = new Texture("textures/project files/terrain_basic.png");
 
         TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
         cell.setTile(new StaticTiledMapTile(atlas.findRegion("grass")));
         for (int i = 0; i < CHUNK_SIZE; i++) {
             for (int j = 0; j < CHUNK_SIZE; j++) {
-                if (worldGenerator.getTerrainHeight(i + CHUNK_SIZE * x, j + CHUNK_SIZE * y) > 0) {
+                if (worldGenerator.getTerrainHeight(i + getXInUnits(), j + getYInUnits()) > 0) {
                     background.setCell(i, j, cell);
                 }
             }
@@ -87,8 +87,12 @@ public class WorldChunk {
 
     public void renderBackground(OrthographicCamera cam) {
 //        mapRenderer.
+        cam.translate(-getXInUnits() * TILE_SIZE, -getYInUnits() * TILE_SIZE);
+        cam.update();
         mapRenderer.setView(cam);
         mapRenderer.render(backgroundLayers);
+        cam.translate(getXInUnits() * TILE_SIZE, getYInUnits() * TILE_SIZE);
+        cam.update();
     }
 
     public void renderForeground() {

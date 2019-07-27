@@ -38,9 +38,12 @@ public class GameScreen implements Screen {
         PlayerControlled playerControlled = engine.createComponent(PlayerControlled.class);
         Spectating spectating = engine.createComponent(Spectating.class);
         Graphic graphic = engine.createComponent(Graphic.class);
+        MaxSpeed maxSpeed = engine.createComponent(MaxSpeed.class);
 
-        playerControlled.acceleration = 1024;
-        graphic.sprite = new Sprite(new Texture("textures/project files/terrain_basic.png"));
+        playerControlled.acceleration = 2048;
+        graphic.sprite = new Sprite(new Texture("textures/terrain_basic.png"));
+        spectating.zoom = 0.5f;
+        maxSpeed.speed = 512;
 
         player.add(position);
         player.add(velocity);
@@ -48,6 +51,7 @@ public class GameScreen implements Screen {
         player.add(playerControlled);
         player.add(spectating);
         player.add(graphic);
+        player.add(maxSpeed);
 
         engine.addEntity(player);
 //        engine.add

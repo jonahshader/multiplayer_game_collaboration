@@ -29,6 +29,8 @@ public class RenderSystem extends EntitySystem {
 
     public void update(float deltaTime) {
         MainGame.batch.begin();
+        cam.update();
+        MainGame.batch.setProjectionMatrix(cam.combined);
         for (Entity entity : entities) {
             Position position = positionMpr.get(entity);
             Graphic graphic = graphicMpr.get(entity);

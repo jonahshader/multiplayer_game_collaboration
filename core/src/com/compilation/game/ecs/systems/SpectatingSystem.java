@@ -10,6 +10,7 @@ import com.compilation.game.ecs.components.Position;
 import com.compilation.game.ecs.components.Spectating;
 
 import static com.compilation.game.ecs.Mappers.positionMpr;
+import static com.compilation.game.ecs.Mappers.spectatingMpr;
 
 public class SpectatingSystem extends EntitySystem {
     private ImmutableArray<Entity> entities;
@@ -31,7 +32,9 @@ public class SpectatingSystem extends EntitySystem {
         } else if (entities.size() == 1) {
             Entity entity = entities.get(0);
             Position position = positionMpr.get(entity);
+            Spectating spectating = spectatingMpr.get(entity);
             cam.position.set(position.x, position.y, 1f);
+            cam.zoom = spectating.zoom;
         }
     }
 

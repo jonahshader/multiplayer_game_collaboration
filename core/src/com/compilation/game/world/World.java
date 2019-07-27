@@ -1,6 +1,5 @@
 package com.compilation.game.world;
 
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.compilation.game.MainGame;
 
@@ -20,7 +19,13 @@ public class World {
         chunkDictionary = new HashMap<>(9);
         worldGen = new WorldGenerator();
 
-        loadedChunks.add(new WorldChunk(0, 0, game, worldGen));
+
+        for (int x = -3; x < 3; x++) {
+            for (int y = -3; y < 3; y++) {
+                loadedChunks.add(new WorldChunk(x, y, game, worldGen));
+            }
+        }
+//        loadedChunks.add(new WorldChunk(0, 0, game, worldGen));
     }
 
     public void run() {
