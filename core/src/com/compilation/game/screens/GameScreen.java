@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.compilation.game.MainGame;
@@ -41,7 +42,8 @@ public class GameScreen implements Screen {
         MaxSpeed maxSpeed = engine.createComponent(MaxSpeed.class);
 
         playerControlled.acceleration = 2048;
-        graphic.sprite = new Sprite(new Texture("textures/terrain_basic.png"));
+        TextureAtlas characterAtlas = new TextureAtlas("textures/characters.pack");
+        graphic.sprite = new Sprite(characterAtlas.findRegion("character"));
         spectating.zoom = 1f;
         maxSpeed.speed = 512;
 
@@ -54,7 +56,6 @@ public class GameScreen implements Screen {
         player.add(maxSpeed);
 
         engine.addEntity(player);
-//        engine.add
     }
 
     @Override
@@ -66,8 +67,6 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.25f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//        cam.translate(1f * cam.zoom, 1f * cam.zoom);
-//        cam.zoom *= 1.001;
         world.render(cam);
         engine.update(delta);
     }
