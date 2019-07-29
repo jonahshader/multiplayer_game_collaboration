@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
 
         playerControlled.acceleration = 2048;
         graphic.sprite = new Sprite(new Texture("textures/terrain_basic.png"));
-        spectating.zoom = 0.5f;
+        spectating.zoom = 1f;
         maxSpeed.speed = 512;
 
         player.add(position);

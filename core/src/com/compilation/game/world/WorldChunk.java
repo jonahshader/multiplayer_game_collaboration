@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class WorldChunk {
     public static final int CHUNK_SIZE = 64;
-    public static final int TILE_SIZE = 32; // size in
+    public static final int TILE_SIZE = 64; // size in
 
     private static final int[] backgroundLayers = { 0 };    // list of background layers
     private static final int[] foregroundLayers = { 1 };    // list of foreground layers
@@ -45,7 +45,7 @@ public class WorldChunk {
         layers.add(background);
         layers.add(foreground);
 
-        TextureAtlas atlas = new TextureAtlas("textures/terrain_basic.pack");
+        TextureAtlas atlas = new TextureAtlas("textures/terrain_64x64.pack");
 //        Texture spriteSheet = new Texture("textures/project files/terrain_basic.png");
 
         TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
