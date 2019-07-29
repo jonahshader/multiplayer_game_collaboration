@@ -44,6 +44,8 @@ public class GameScreen implements Screen {
         playerControlled.acceleration = 2048;
         TextureAtlas characterAtlas = new TextureAtlas("textures/characters.pack");
         graphic.sprite = new Sprite(characterAtlas.findRegion("character"));
+        graphic.sprite.setOrigin(32f, 32f);
+        graphic.sprite.getX();
         spectating.zoom = 1f;
         maxSpeed.speed = 512;
 

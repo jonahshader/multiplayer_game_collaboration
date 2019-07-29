@@ -1,6 +1,9 @@
 package com.compilation.game.world;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.compilation.game.MainGame;
 
 import java.util.ArrayList;
@@ -11,10 +14,31 @@ public class World {
     private HashMap<String, WorldChunk> chunkDictionary;
     private WorldGenerator worldGen;
 
+    private TextureAtlas worldAtlas;
+    TiledMapTileLayer.Cell grassCell = new TiledMapTileLayer.Cell();
+    TiledMapTileLayer.Cell waterShallowCell = new TiledMapTileLayer.Cell();
+    TiledMapTileLayer.Cell waterDarkCell = new TiledMapTileLayer.Cell();
+    TiledMapTileLayer.Cell sandCell = new TiledMapTileLayer.Cell();
+
+    private StaticTiledMapTile grassTile, waterShallowTile, waterDarkTile, sandTile;
+
     private MainGame game;
 
     public World(MainGame game) {
         this.game = game;
+
+        worldAtlas = new TextureAtlas("textures/terrain_64x64.pack");
+
+        grassTile = new StaticTiledMapTile(worldAtlas.findRegion("grass"));
+        waterShallowTile = new StaticTiledMapTile(worldAtlas.findRegion("water_shallow"));
+        waterDarkTile = new StaticTiledMapTile(worldAtlas.findRegion("water_deep"));
+        sandTile = new StaticTiledMapTile(worldAtlas.findRegion("sand"));
+
+        grassCell.setTile(grassTile);
+        waterShallowCell.setTile(waterShallowTile);
+        waterDarkCell.setTile(waterDarkTile);
+        sandCell.setTile(sandTile);
+
         loadedChunks = new ArrayList<>(9);
         chunkDictionary = new HashMap<>(9);
         worldGen = new WorldGenerator();
@@ -22,7 +46,7 @@ public class World {
 
         for (int x = -3; x < 3; x++) {
             for (int y = -3; y < 3; y++) {
-                loadedChunks.add(new WorldChunk(x, y, game, worldGen));
+                loadedChunks.add(new WorldChunk(x, y, game, worldGen, this));
             }
         }
 //        loadedChunks.add(new WorldChunk(0, 0, game, worldGen));

@@ -10,13 +10,15 @@ import com.badlogic.gdx.InputProcessor;
 import com.compilation.game.MainGame;
 import com.compilation.game.ecs.components.Acceleration;
 import com.compilation.game.ecs.components.PlayerControlled;
+import com.compilation.game.ecs.components.Spectating;
 
-import static com.compilation.game.ecs.Mappers.accelerationMpr;
-import static com.compilation.game.ecs.Mappers.playerControlledMpr;
+import static com.compilation.game.ecs.Mappers.*;
 
 public class PlayerControlledSystem extends EntitySystem implements InputProcessor {
     private static final float invSqrt2 = (float) (1.0/Math.sqrt(2)); // cache value for frequent use
-    private ImmutableArray<Entity> entities;
+    private ImmutableArray<Entity> accelerationEntities; // entities with Acceleration (and PlayerControlled)
+    private ImmutableArray<Entity> spectatingEntities;   // entities with Spectating (and PlayerControlled)
+
 
     public PlayerControlledSystem() {
         super();
@@ -24,7 +26,8 @@ public class PlayerControlledSystem extends EntitySystem implements InputProcess
     }
 
     public void addedToEngine(Engine engine) {
-        entities = engine.getEntitiesFor(Family.all(PlayerControlled.class, Acceleration.class).get());
+        accelerationEntities = engine.getEntitiesFor(Family.all(PlayerControlled.class, Acceleration.class).get());
+        spectatingEntities = engine.getEntitiesFor(Family.all(PlayerControlled.class, Spectating.class).get());
     }
 
     public void update(float deltaTime) {
@@ -73,9 +76,10 @@ public class PlayerControlledSystem extends EntitySystem implements InputProcess
 
     private boolean handleKeyInput(int keycode) {
         boolean handled = false;
-        for (Entity entity : entities) {
-            Acceleration acceleration = accelerationMpr.get(entity);
+
+        for (Entity entity : accelerationEntities) {
             PlayerControlled playerControlled = playerControlledMpr.get(entity);
+            Acceleration acceleration = accelerationMpr.get(entity);
 
             int leftRight = 0;
             int upDown = 0;
@@ -109,6 +113,25 @@ public class PlayerControlledSystem extends EntitySystem implements InputProcess
                 acceleration.y = upDown * playerControlled.acceleration;
             }
         }
+
+        for (Entity entity : spectatingEntities) {
+            PlayerControlled playerControlled = playerControlledMpr.get(entity);
+            Spectating spectating = spectatingMpr.get(entity);
+
+            if (Gdx.input.isKeyPressed(playerControlled.zoomIn)) {
+                if (keycode == playerControlled.zoomIn) {
+                    spectating.zoom /= 1.5;
+                    handled = true;
+                }
+            }
+            if (Gdx.input.isKeyPressed(playerControlled.zoomOut)) {
+                if (keycode == playerControlled.zoomOut) {
+                    spectating.zoom *= 1.5;
+                    handled = true;
+                }
+            }
+        }
+
         return handled;
     }
 }

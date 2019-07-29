@@ -1,13 +1,11 @@
 package com.compilation.game.world;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.compilation.game.MainGame;
 
 import java.util.ArrayList;
@@ -23,16 +21,18 @@ public class WorldChunk {
     private MapRenderer mapRenderer;
     private MainGame game;
     private ArrayList<WorldChunk> neighboringChunks;
+    private World containingWorld;
 
     private boolean[][] collisionMap; // 2d boolean array for fast access for collision detection
 
     private int x;
     private int y; // x y index of this chunk
 
-    public WorldChunk(int x, int y, MainGame game, WorldGenerator worldGenerator) {
+    public WorldChunk(int x, int y, MainGame game, WorldGenerator worldGenerator, World containingWorld) {
         this.x = x;
         this.y = y;
         this.game = game;
+        this.containingWorld = containingWorld;
 
         neighboringChunks = new ArrayList<>(8);
 
@@ -45,20 +45,24 @@ public class WorldChunk {
         layers.add(background);
         layers.add(foreground);
 
-        TextureAtlas atlas = new TextureAtlas("textures/terrain_64x64.pack");
-//        Texture spriteSheet = new Texture("textures/project files/terrain_basic.png");
-
-        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-        cell.setTile(new StaticTiledMapTile(atlas.findRegion("grass")));
         for (int i = 0; i < CHUNK_SIZE; i++) {
             for (int j = 0; j < CHUNK_SIZE; j++) {
-                if (worldGenerator.getTerrainHeight(i + getXInUnits(), j + getYInUnits()) > 0) {
-                    background.setCell(i, j, cell);
-                }
+                background.setCell(i, j, elevationToTile(worldGenerator.getTerrainHeight(i + getXInUnits(), j + getYInUnits())));
             }
         }
 
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1, MainGame.batch);
+    }
+
+    private TiledMapTileLayer.Cell elevationToTile(double height) {
+        if (height < -0.25)
+            return containingWorld.waterDarkCell;
+        else if (height < -0.125)
+            return containingWorld.waterShallowCell;
+        else if (height < 0.125)
+            return containingWorld.sandCell;
+        else
+            return containingWorld.grassCell;
     }
 
     public void addNeighboringChunk(WorldChunk neighbor) {

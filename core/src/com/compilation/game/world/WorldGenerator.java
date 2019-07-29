@@ -52,8 +52,8 @@ public class WorldGenerator implements Serializable {
         terrainOctaveSet = new OctaveSet();
         terrainOctaveSet.octaves.add(new Octave(300, 1)); // continental
 
-        for (int i = 0; i < 6; i++) {
-            terrainOctaveSet.octaves.add(new Octave(Math.pow(0.5, i) * 20, .25 * Math.pow(0.5, i)));
+        for (int i = 0; i < 3; i++) {
+            terrainOctaveSet.octaves.add(new Octave(Math.pow(0.5, i) * 50, .125 * Math.pow(0.5, i)));
         }
 
         // create octaves for temperature
