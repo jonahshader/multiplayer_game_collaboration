@@ -21,8 +21,8 @@ public class World {
     TiledMapTileLayer.Cell waterDeepCell = new TiledMapTileLayer.Cell();
     TiledMapTileLayer.Cell sandCell = new TiledMapTileLayer.Cell();
 
-    private int centerX = 0;
-    private int centerY = 0;
+    private int chunkCenterX = 0;
+    private int chunkCenterY = 0;
     private boolean chunkUpdateQueued = true;
 
 
@@ -62,9 +62,9 @@ public class World {
             for (int x = -1; x <= 1; x++) {
                 for (int y = -1; y <= 1; y++) {
                     // if this chunk is not loaded,
-                    if (!chunkDictionary.containsKey(WorldChunk.coordToKey(x + centerX, y + centerY))) {
+                    if (!chunkDictionary.containsKey(WorldChunk.coordToKey(x + chunkCenterX, y + chunkCenterY))) {
                         // load it
-                        WorldChunk newChunk = new WorldChunk(x + centerX, y + centerY, game, worldGen, this);
+                        WorldChunk newChunk = new WorldChunk(x + chunkCenterX, y + chunkCenterY, game, worldGen, this);
                         loadedChunks.add(newChunk);
                         chunkDictionary.put(newChunk.getKey(), newChunk);
                     }
@@ -80,12 +80,15 @@ public class World {
         }
     }
 
-    public void updateCenterChunk(int centerX, int centerY) {
-        if (this.centerX != centerX || this.centerY != centerY) {
+    public void updateCenterChunk(double centerX, double centerY) {
+        int chunkX = (int)Math.floor(centerX / WorldChunk.CHUNK_SIZE);
+        int chunkY = (int)Math.floor(centerY / WorldChunk.CHUNK_SIZE);
+
+        if (this.chunkCenterX != centerX || this.chunkCenterY != centerY) {
             // queue chunk update
             chunkUpdateQueued = true;
-            this.centerX = centerX;
-            this.centerY = centerY;
+            this.chunkCenterX = chunkX;
+            this.chunkCenterY = chunkY;
         }
     }
 

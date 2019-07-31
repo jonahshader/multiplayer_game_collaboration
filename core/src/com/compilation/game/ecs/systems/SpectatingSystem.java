@@ -37,10 +37,10 @@ public class SpectatingSystem extends EntitySystem {
             Entity entity = entities.get(0);
             Position position = positionMpr.get(entity);
             Spectating spectating = spectatingMpr.get(entity);
-            cam.position.set(position.x + position.chunkX * WorldChunk.CHUNK_SIZE, position.y + position.chunkY * WorldChunk.CHUNK_SIZE, 1f);
+            cam.position.set((float)position.x, (float)position.y, 1f);
             cam.zoom = spectating.zoom;
             // notify world that this should be the center loaded chunk
-            world.updateCenterChunk(position.chunkX, position.chunkY);
+            world.updateCenterChunk(position.x, position.y);
         }
     }
 

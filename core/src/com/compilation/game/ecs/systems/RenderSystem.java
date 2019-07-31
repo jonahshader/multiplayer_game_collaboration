@@ -35,9 +35,7 @@ public class RenderSystem extends EntitySystem {
             Position position = positionMpr.get(entity);
             Graphic graphic = graphicMpr.get(entity);
 
-            graphic.sprite.setOriginBasedPosition(
-                    position.x + (position.chunkX * WorldChunk.CHUNK_SIZE),
-                    position.y + (position.chunkY * WorldChunk.CHUNK_SIZE));
+            graphic.sprite.setOriginBasedPosition((float) position.x, (float) position.y);
             graphic.sprite.draw(MainGame.batch);
         }
         MainGame.batch.end();

@@ -42,11 +42,9 @@ public class ChunkAlignSystem extends EntitySystem implements EntityListener {
     }
 
     private void alignPositionToChunk(Position position) {
-        position.chunkX += Math.floor(position.x / WorldChunk.CHUNK_SIZE);
-        position.chunkY += Math.floor(position.y / WorldChunk.CHUNK_SIZE);
-        position.x -= Math.floor(position.x / WorldChunk.CHUNK_SIZE) * WorldChunk.CHUNK_SIZE;
-        position.y -= Math.floor(position.y / WorldChunk.CHUNK_SIZE) * WorldChunk.CHUNK_SIZE;
-
-        System.out.println("X: " + position.x + " Y: " + position.y);
+//        position.chunkX += Math.floor(position.x / WorldChunk.CHUNK_SIZE);
+//        position.chunkY += Math.floor(position.y / WorldChunk.CHUNK_SIZE);
+//        position.x -= Math.floor(position.x / WorldChunk.CHUNK_SIZE) * WorldChunk.CHUNK_SIZE;
+//        position.y -= Math.floor(position.y / WorldChunk.CHUNK_SIZE) * WorldChunk.CHUNK_SIZE;
     }
 }
