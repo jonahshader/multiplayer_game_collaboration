@@ -19,10 +19,11 @@ public class GameScreen implements Screen {
     private final MainGame game;
 
     private ECSEngine engine;
-
     private World world;
     private Viewport viewport;
     private OrthographicCamera cam;
+
+    private TextureAtlas tempCharacterAtlas;
 
     public GameScreen(MainGame game) {
         this.game = game;
@@ -31,6 +32,7 @@ public class GameScreen implements Screen {
         viewport = new ScreenViewport(cam);
         world = new World(game);
         engine = new ECSEngine(cam);
+        tempCharacterAtlas = new TextureAtlas("textures/characters.pack");
 
         Entity player = engine.createEntity();
         Position position = engine.createComponent(Position.class);
@@ -42,10 +44,8 @@ public class GameScreen implements Screen {
         MaxSpeed maxSpeed = engine.createComponent(MaxSpeed.class);
 
         playerControlled.acceleration = 2048;
-        TextureAtlas characterAtlas = new TextureAtlas("textures/characters.pack");
-        graphic.sprite = new Sprite(characterAtlas.findRegion("character"));
+        graphic.sprite = new Sprite(tempCharacterAtlas.findRegion("character"));
         graphic.sprite.setOrigin(32f, 32f);
-        graphic.sprite.getX();
         spectating.zoom = 1f;
         maxSpeed.speed = 512;
 
@@ -67,6 +67,28 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+//        for (int i = 0 ; i < 15; i++) {
+//            Entity roamingCharacter = engine.createEntity();
+//
+//            Position position = engine.createComponent(Position.class);
+//            Velocity velocity = engine.createComponent(Velocity.class);
+//            Graphic graphic = engine.createComponent(Graphic.class);
+//            MaxSpeed maxSpeed = engine.createComponent(MaxSpeed.class);
+//            velocity.x = (float) ((Math.random() - 0.5) * 64);
+//            velocity.y = (float) ((Math.random() - 0.5) * 64);
+//            graphic.sprite = new Sprite(tempCharacterAtlas.findRegion("character"));
+//            graphic.sprite.setOrigin(32f, 32f);
+//
+//            roamingCharacter.add(position);
+//            roamingCharacter.add(velocity);
+//            roamingCharacter.add(graphic);
+//            roamingCharacter.add(maxSpeed);
+//
+//            engine.addEntity(roamingCharacter);
+//        }
+
+
+
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.25f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         world.render(cam);
