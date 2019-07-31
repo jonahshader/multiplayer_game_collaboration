@@ -2,6 +2,7 @@ package com.compilation.game.managers;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Dictionary;
 
 public class SqlManager {
 
@@ -67,6 +68,38 @@ public class SqlManager {
             ArrayList<T> returnResults = new ArrayList<T>();
             for(int x = 1; x <= metaData.getColumnCount(); x++){
                 returnResults.add((T) resultSet.getObject(x));
+            }
+
+            connection.close();
+            return returnResults;
+        }catch (SQLException e){
+            return null;
+        }
+
+    }
+
+    public <T> ArrayList<ArrayList<T>> getTable(String pSql){
+
+        try{
+            ResultSet resultSet = null;
+            connection = DriverManager.getConnection(connectionUrl);
+
+            Statement statement = connection.createStatement();
+            resultSet = statement.executeQuery(pSql);
+
+
+            ResultSetMetaData metaData = resultSet.getMetaData();
+
+            ArrayList<ArrayList<T>> returnResults = new ArrayList<ArrayList<T>>();
+
+            var curIndex = 0;
+
+            while(resultSet.next()){
+                for(int x = 1; x <= metaData.getColumnCount(); x++){
+                    returnResults.add(new ArrayList<>());
+                    returnResults.get(curIndex).add((T) resultSet.getObject(x));
+                }
+                curIndex++;
             }
 
             connection.close();

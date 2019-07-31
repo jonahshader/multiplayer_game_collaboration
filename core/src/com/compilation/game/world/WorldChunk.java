@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.compilation.game.MainGame;
+import com.compilation.game.managers.SqlManager;
 
 import java.util.ArrayList;
 
@@ -93,6 +94,45 @@ public class WorldChunk {
             elevationData[delta.y][delta.x] = delta.value;  // update elevation data
             background.setCell(delta.x, delta.y, elevationToTile(delta.value)); // update tilemap
         }
+    }
+
+    public boolean SaveDelta(){
+        var deltas = getDelta();
+        var sqlQuery = "";
+
+        for(var d : deltas){
+            sqlQuery += "INSERT INTO Chunk (ChunkX, ChunkY, CellX, CellY, CellValue) VALUES (" + x + ", " + y + ", " + d.x + ", " + d.y + ", " + d.value +") ";
+        }
+
+        try
+        {
+            if(!sqlQuery.equals("")){
+                return MainGame.sql.executeSql(sqlQuery);
+            }
+        }catch(Exception e){
+            System.out.println("Failed to save delta: " + e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean LoadDelta(){
+        ArrayList<DeltaCell> deltas = new ArrayList<>();
+        try
+        {
+            var results = MainGame.sql.getTable("EXEC GetChunkByXY " + x + ", " + y);
+            for(var row : results){
+                deltas.add(new DeltaCell((int)row.get(0), (int)row.get(1), Float.parseFloat(row.get(2).toString())));
+            }
+
+            applyDelta(deltas);
+        }catch(Exception e){
+            System.out.println("Failed to load delta: " + e.getMessage());
+            return false;
+        }
+
+        return true;
     }
 
     public void addNeighboringChunk(WorldChunk neighbor) {

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.compilation.game.MainGame;
+import com.compilation.game.managers.SqlManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
