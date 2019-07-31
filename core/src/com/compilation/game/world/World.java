@@ -41,7 +41,7 @@ public class World {
 
         loadedChunks = new ArrayList<>(9);
         chunkDictionary = new HashMap<>(9);
-        worldGen = new WorldGenerator();
+        worldGen = new WorldGenerator(13232424);
 
 
         for (int x = -3; x < 3; x++) {

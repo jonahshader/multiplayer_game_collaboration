@@ -1,5 +1,6 @@
 package com.compilation.game.world;
 
+import com.badlogic.gdx.math.RandomXS128;
 import com.compilation.game.external.SimplexNoise;
 
 import java.io.Serializable;
@@ -15,8 +16,8 @@ public class WorldGenerator implements Serializable {
         public Octave(double scale, double magnitude) {
             this.scale = scale;
             this.magnitude = magnitude;
-            xOffset = (Math.random() - 0.5) * Integer.MAX_VALUE * 0.5;
-            yOffset = (Math.random() - 0.5) * Integer.MAX_VALUE * 0.5;
+            xOffset = (random.nextDouble() - 0.5) * Integer.MAX_VALUE * 0.5;
+            yOffset = (random.nextDouble() - 0.5) * Integer.MAX_VALUE * 0.5;
         }
 
         double getValue(long x, long y) {
@@ -45,9 +46,21 @@ public class WorldGenerator implements Serializable {
     }
 
     private OctaveSet terrainOctaveSet, temperatureOctaveSet;
+    private RandomXS128 random;
 
     // default constructor. generates default map settings.
     public WorldGenerator() {
+        random = new RandomXS128();
+        generateOctaves();
+    }
+
+    // default constructor with seed
+    public WorldGenerator(long seed) {
+        random = new RandomXS128(seed);
+        generateOctaves();
+    }
+
+    private void generateOctaves() {
         // create octaves for terrain
         terrainOctaveSet = new OctaveSet();
         terrainOctaveSet.octaves.add(new Octave(300, 1)); // continental
