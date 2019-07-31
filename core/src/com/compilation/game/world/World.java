@@ -18,8 +18,9 @@ public class World {
 
     TiledMapTileLayer.Cell grassCell = new TiledMapTileLayer.Cell();
     TiledMapTileLayer.Cell waterShallowCell = new TiledMapTileLayer.Cell();
-    TiledMapTileLayer.Cell waterDarkCell = new TiledMapTileLayer.Cell();
+    TiledMapTileLayer.Cell waterDeepCell = new TiledMapTileLayer.Cell();
     TiledMapTileLayer.Cell sandCell = new TiledMapTileLayer.Cell();
+
 
     private MainGame game;
 
@@ -35,7 +36,7 @@ public class World {
 
         grassCell.setTile(grassTile);
         waterShallowCell.setTile(waterShallowTile);
-        waterDarkCell.setTile(waterDarkTile);
+        waterDeepCell.setTile(waterDarkTile);
         sandCell.setTile(sandTile);
 
         loadedChunks = new ArrayList<>(9);

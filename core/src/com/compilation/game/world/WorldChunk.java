@@ -22,32 +22,38 @@ public class WorldChunk {
     private MainGame game;
     private ArrayList<WorldChunk> neighboringChunks;
     private World containingWorld;
+    private WorldGenerator worldGen;
+    private TiledMapTileLayer background, foreground;
 
-    private boolean[][] collisionMap; // 2d boolean array for fast access for collision detection
+    private boolean[][] collisionData; // 2d boolean array for fast access for collision detection
+    private float[][] elevationData;
 
-    private int x;
-    private int y; // x y index of this chunk
+    private final int x;
+    private final int y; // x y index of this chunk
 
-    public WorldChunk(int x, int y, MainGame game, WorldGenerator worldGenerator, World containingWorld) {
+    public WorldChunk(int x, int y, MainGame game, WorldGenerator worldGen, World containingWorld) {
         this.x = x;
         this.y = y;
         this.game = game;
+        this.worldGen = worldGen;
         this.containingWorld = containingWorld;
 
         neighboringChunks = new ArrayList<>(8);
-
         map = new TiledMap();
+        elevationData = new float[CHUNK_SIZE][CHUNK_SIZE];
 
-        TiledMapTileLayer background = new TiledMapTileLayer(CHUNK_SIZE, CHUNK_SIZE, TILE_SIZE, TILE_SIZE);
-        TiledMapTileLayer foreground = new TiledMapTileLayer(CHUNK_SIZE, CHUNK_SIZE, TILE_SIZE, TILE_SIZE);
+        background = new TiledMapTileLayer(CHUNK_SIZE, CHUNK_SIZE, TILE_SIZE, TILE_SIZE);
+        foreground = new TiledMapTileLayer(CHUNK_SIZE, CHUNK_SIZE, TILE_SIZE, TILE_SIZE);
 
         MapLayers layers = map.getLayers();
         layers.add(background);
         layers.add(foreground);
 
-        for (int i = 0; i < CHUNK_SIZE; i++) {
-            for (int j = 0; j < CHUNK_SIZE; j++) {
-                background.setCell(i, j, elevationToTile(worldGenerator.getTerrainHeight(i + getXInUnits(), j + getYInUnits())));
+        for (int yy = 0; yy < CHUNK_SIZE; yy++) {
+            for (int xx = 0; xx < CHUNK_SIZE; xx++) {
+                float elevationValue = (float) worldGen.getTerrainHeight(xx + getXInUnits(), yy + getYInUnits());
+                background.setCell(xx, yy, elevationToTile(elevationValue));
+                elevationData[yy][xx] = elevationValue;
             }
         }
 
@@ -56,13 +62,36 @@ public class WorldChunk {
 
     private TiledMapTileLayer.Cell elevationToTile(double height) {
         if (height < -0.25)
-            return containingWorld.waterDarkCell;
+            return containingWorld.waterDeepCell;
         else if (height < -0.125)
             return containingWorld.waterShallowCell;
         else if (height < 0.125)
             return containingWorld.sandCell;
         else
             return containingWorld.grassCell;
+    }
+
+    public ArrayList<DeltaCell> getDelta() {
+        ArrayList<DeltaCell> deltas = new ArrayList<>();
+        for (int yy = 0; yy < CHUNK_SIZE; yy++) {
+            for (int xx = 0; xx < CHUNK_SIZE; xx++) {
+                if (elevationData[yy][xx] != (float) worldGen.getTerrainHeight(xx + getXInUnits(), yy + getYInUnits())) {
+                    // save delta to array
+                    deltas.add(new DeltaCell(xx, yy, elevationData[yy][xx]));
+                }
+            }
+        }
+
+        return deltas;
+    }
+
+    //TODO: determine when and where this method will be called. maybe it will be called by a separate constructor in the future
+    //TODO: World class will be handling the loading and unloading of WorldChunks
+    public void applyDelta(ArrayList<DeltaCell> deltas) {
+        for (DeltaCell delta : deltas) {
+            elevationData[delta.y][delta.x] = delta.value;  // update elevation data
+            background.setCell(delta.x, delta.y, elevationToTile(delta.value)); // update tilemap
+        }
     }
 
     public void addNeighboringChunk(WorldChunk neighbor) {
