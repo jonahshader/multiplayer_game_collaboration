@@ -1,7 +1,7 @@
 
 terrain_64x64.png
 format: RGBA8888
-filter: Linear,Nearest
+filter: Nearest,Nearest
 repeat: none
 dirt
   rotate: false
