@@ -11,8 +11,9 @@ import com.compilation.game.MainGame;
 import java.util.ArrayList;
 
 public class WorldChunk {
-    public static final int CHUNK_SIZE = 64;
+    public static final int CHUNK_TILE_SIZE = 64;
     public static final int TILE_SIZE = 64; // size in
+    public static final int CHUNK_SIZE = CHUNK_TILE_SIZE * TILE_SIZE;
 
     private static final int[] backgroundLayers = { 0 };    // list of background layers
     private static final int[] foregroundLayers = { 1 };    // list of foreground layers
@@ -40,17 +41,17 @@ public class WorldChunk {
 
         neighboringChunks = new ArrayList<>(8);
         map = new TiledMap();
-        elevationData = new float[CHUNK_SIZE][CHUNK_SIZE];
+        elevationData = new float[CHUNK_TILE_SIZE][CHUNK_TILE_SIZE];
 
-        background = new TiledMapTileLayer(CHUNK_SIZE, CHUNK_SIZE, TILE_SIZE, TILE_SIZE);
-        foreground = new TiledMapTileLayer(CHUNK_SIZE, CHUNK_SIZE, TILE_SIZE, TILE_SIZE);
+        background = new TiledMapTileLayer(CHUNK_TILE_SIZE, CHUNK_TILE_SIZE, TILE_SIZE, TILE_SIZE);
+        foreground = new TiledMapTileLayer(CHUNK_TILE_SIZE, CHUNK_TILE_SIZE, TILE_SIZE, TILE_SIZE);
 
         MapLayers layers = map.getLayers();
         layers.add(background);
         layers.add(foreground);
 
-        for (int yy = 0; yy < CHUNK_SIZE; yy++) {
-            for (int xx = 0; xx < CHUNK_SIZE; xx++) {
+        for (int yy = 0; yy < CHUNK_TILE_SIZE; yy++) {
+            for (int xx = 0; xx < CHUNK_TILE_SIZE; xx++) {
                 float elevationValue = (float) worldGen.getTerrainHeight(xx + getXInUnits(), yy + getYInUnits());
                 background.setCell(xx, yy, elevationToTile(elevationValue));
                 elevationData[yy][xx] = elevationValue;
@@ -73,8 +74,8 @@ public class WorldChunk {
 
     public ArrayList<DeltaCell> getDelta() {
         ArrayList<DeltaCell> deltas = new ArrayList<>();
-        for (int yy = 0; yy < CHUNK_SIZE; yy++) {
-            for (int xx = 0; xx < CHUNK_SIZE; xx++) {
+        for (int yy = 0; yy < CHUNK_TILE_SIZE; yy++) {
+            for (int xx = 0; xx < CHUNK_TILE_SIZE; xx++) {
                 if (elevationData[yy][xx] != (float) worldGen.getTerrainHeight(xx + getXInUnits(), yy + getYInUnits())) {
                     // save delta to array
                     deltas.add(new DeltaCell(xx, yy, elevationData[yy][xx]));
@@ -99,11 +100,11 @@ public class WorldChunk {
     }
 
     public int getXInUnits() {
-        return x * CHUNK_SIZE;
+        return x * CHUNK_TILE_SIZE;
     }
 
     public int getYInUnits() {
-        return y * CHUNK_SIZE;
+        return y * CHUNK_TILE_SIZE;
     }
 
     public int getXIndex() {
@@ -115,6 +116,10 @@ public class WorldChunk {
     }
 
     public String getKey() {
+        return x + " " + y;
+    }
+
+    public static String coordToKey(int x, int y) {
         return x + " " + y;
     }
 

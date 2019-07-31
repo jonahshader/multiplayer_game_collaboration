@@ -24,6 +24,7 @@ public class GameScreen implements Screen {
     private OrthographicCamera cam;
 
     private TextureAtlas tempCharacterAtlas;
+    private int entityCount;
 
     public GameScreen(MainGame game) {
         this.game = game;
@@ -31,8 +32,9 @@ public class GameScreen implements Screen {
         cam = new OrthographicCamera();
         viewport = new ScreenViewport(cam);
         world = new World(game);
-        engine = new ECSEngine(cam);
+        engine = new ECSEngine(cam, world);
         tempCharacterAtlas = new TextureAtlas("textures/characters.pack");
+        entityCount = 1;
 
         Entity player = engine.createEntity();
         Position position = engine.createComponent(Position.class);
@@ -47,7 +49,7 @@ public class GameScreen implements Screen {
         graphic.sprite = new Sprite(tempCharacterAtlas.findRegion("character"));
         graphic.sprite.setOrigin(32f, 32f);
         spectating.zoom = 1f;
-        maxSpeed.speed = 512;
+        maxSpeed.speed = 512*8;
 
         player.add(position);
         player.add(velocity);
@@ -67,27 +69,27 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-//        for (int i = 0 ; i < 15; i++) {
+//        for (int i = 0 ; i < 3; i++) {
 //            Entity roamingCharacter = engine.createEntity();
 //
 //            Position position = engine.createComponent(Position.class);
 //            Velocity velocity = engine.createComponent(Velocity.class);
 //            Graphic graphic = engine.createComponent(Graphic.class);
-//            MaxSpeed maxSpeed = engine.createComponent(MaxSpeed.class);
-//            velocity.x = (float) ((Math.random() - 0.5) * 64);
-//            velocity.y = (float) ((Math.random() - 0.5) * 64);
+//            velocity.x = (float) ((Math.random() - 0.5) * 1024);
+//            velocity.y = (float) ((Math.random() - 0.5) * 1024);
 //            graphic.sprite = new Sprite(tempCharacterAtlas.findRegion("character"));
 //            graphic.sprite.setOrigin(32f, 32f);
 //
 //            roamingCharacter.add(position);
 //            roamingCharacter.add(velocity);
 //            roamingCharacter.add(graphic);
-//            roamingCharacter.add(maxSpeed);
 //
+//            entityCount++;
 //            engine.addEntity(roamingCharacter);
 //        }
+//        System.out.println(entityCount + " " + 1/delta);
 
-
+        world.run();
 
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.25f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

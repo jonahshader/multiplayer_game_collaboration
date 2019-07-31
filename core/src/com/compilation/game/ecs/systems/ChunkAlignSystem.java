@@ -4,6 +4,9 @@ import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.compilation.game.ecs.components.Position;
 import com.compilation.game.ecs.components.Velocity;
+import com.compilation.game.world.WorldChunk;
+
+import static com.compilation.game.ecs.Mappers.positionMpr;
 
 public class ChunkAlignSystem extends EntitySystem implements EntityListener {
     private ImmutableArray<Entity> dynamicEntities;
@@ -20,10 +23,16 @@ public class ChunkAlignSystem extends EntitySystem implements EntityListener {
         engine.addEntityListener(staticFamily, this);
     }
 
+    public void update(float deltaTime) {
+        for (Entity entity : dynamicEntities) {
+            alignPositionToChunk(positionMpr.get(entity));
+        }
+    }
+
     // method called when static entity joins the static family
     @Override
     public void entityAdded(Entity entity) {
-
+        alignPositionToChunk(positionMpr.get(entity));
     }
 
     // method called when static entity leaves the static family
@@ -31,6 +40,13 @@ public class ChunkAlignSystem extends EntitySystem implements EntityListener {
     public void entityRemoved(Entity entity) {
 
     }
-}
 
-//TODO: figure out entity chunk relationship.... will be complicated
+    private void alignPositionToChunk(Position position) {
+        position.chunkX += Math.floor(position.x / WorldChunk.CHUNK_SIZE);
+        position.chunkY += Math.floor(position.y / WorldChunk.CHUNK_SIZE);
+        position.x -= Math.floor(position.x / WorldChunk.CHUNK_SIZE) * WorldChunk.CHUNK_SIZE;
+        position.y -= Math.floor(position.y / WorldChunk.CHUNK_SIZE) * WorldChunk.CHUNK_SIZE;
+
+        System.out.println("X: " + position.x + " Y: " + position.y);
+    }
+}

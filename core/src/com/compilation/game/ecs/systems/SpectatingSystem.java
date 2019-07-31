@@ -8,6 +8,8 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.compilation.game.ecs.components.Position;
 import com.compilation.game.ecs.components.Spectating;
+import com.compilation.game.world.World;
+import com.compilation.game.world.WorldChunk;
 
 import static com.compilation.game.ecs.Mappers.positionMpr;
 import static com.compilation.game.ecs.Mappers.spectatingMpr;
@@ -15,9 +17,11 @@ import static com.compilation.game.ecs.Mappers.spectatingMpr;
 public class SpectatingSystem extends EntitySystem {
     private ImmutableArray<Entity> entities;
     private OrthographicCamera cam;
+    private World world;
 
-    public SpectatingSystem(OrthographicCamera cam) {
+    public SpectatingSystem(OrthographicCamera cam, World world) {
         this.cam = cam;
+        this.world = world;
     }
 
     public void addedToEngine(Engine engine) {
@@ -33,8 +37,10 @@ public class SpectatingSystem extends EntitySystem {
             Entity entity = entities.get(0);
             Position position = positionMpr.get(entity);
             Spectating spectating = spectatingMpr.get(entity);
-            cam.position.set(position.x, position.y, 1f);
+            cam.position.set(position.x + position.chunkX * WorldChunk.CHUNK_SIZE, position.y + position.chunkY * WorldChunk.CHUNK_SIZE, 1f);
             cam.zoom = spectating.zoom;
+            // notify world that this should be the center loaded chunk
+            world.updateCenterChunk(position.chunkX, position.chunkY);
         }
     }
 

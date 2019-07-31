@@ -21,6 +21,10 @@ public class World {
     TiledMapTileLayer.Cell waterDeepCell = new TiledMapTileLayer.Cell();
     TiledMapTileLayer.Cell sandCell = new TiledMapTileLayer.Cell();
 
+    private int centerX = 0;
+    private int centerY = 0;
+    private boolean chunkUpdateQueued = true;
+
 
     private MainGame game;
 
@@ -44,21 +48,44 @@ public class World {
         worldGen = new WorldGenerator(13232424);
 
 
-        for (int x = -3; x < 3; x++) {
-            for (int y = -3; y < 3; y++) {
-                loadedChunks.add(new WorldChunk(x, y, game, worldGen, this));
-            }
-        }
+//        for (int x = -3; x < 3; x++) {
+//            for (int y = -3; y < 3; y++) {
+//                WorldChunk
+//                loadedChunks.add(new WorldChunk(x, y, game, worldGen, this));
+//            }
+//        }
     }
 
     public void run() {
-
+        if (chunkUpdateQueued) {
+            chunkUpdateQueued = false;
+            for (int x = -1; x <= 1; x++) {
+                for (int y = -1; y <= 1; y++) {
+                    // if this chunk is not loaded,
+                    if (!chunkDictionary.containsKey(WorldChunk.coordToKey(x + centerX, y + centerY))) {
+                        // load it
+                        WorldChunk newChunk = new WorldChunk(x + centerX, y + centerY, game, worldGen, this);
+                        loadedChunks.add(newChunk);
+                        chunkDictionary.put(newChunk.getKey(), newChunk);
+                    }
+                }
+            }
+        }
     }
 
     public void render(OrthographicCamera cam) {
         cam.update(); // make sure the cam is updated before using it
         for (WorldChunk worldChunk : loadedChunks) {
             worldChunk.renderBackground(cam);
+        }
+    }
+
+    public void updateCenterChunk(int centerX, int centerY) {
+        if (this.centerX != centerX || this.centerY != centerY) {
+            // queue chunk update
+            chunkUpdateQueued = true;
+            this.centerX = centerX;
+            this.centerY = centerY;
         }
     }
 
