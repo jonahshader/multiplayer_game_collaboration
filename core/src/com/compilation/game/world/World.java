@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class World {
+    public static final int LOADED_RADIUS = 2;
     private ArrayList<WorldChunk> loadedChunks;
     private HashMap<String, WorldChunk> chunkDictionary;
     private WorldGenerator worldGen;
@@ -46,7 +47,7 @@ public class World {
 
         loadedChunks = new ArrayList<>(9);
         chunkDictionary = new HashMap<>(9);
-        worldGen = new WorldGenerator(13232424);
+        worldGen = new WorldGenerator(125233242);
 
 
 //        for (int x = -3; x < 3; x++) {
@@ -60,8 +61,8 @@ public class World {
     public void run() {
         if (chunkUpdateQueued) {
             chunkUpdateQueued = false;
-            for (int x = -1; x <= 1; x++) {
-                for (int y = -1; y <= 1; y++) {
+            for (int x = -LOADED_RADIUS; x <= LOADED_RADIUS; x++) {
+                for (int y = -LOADED_RADIUS; y <= LOADED_RADIUS; y++) {
                     // if this chunk is not loaded,
                     if (!chunkDictionary.containsKey(WorldChunk.coordToKey(x + chunkCenterX, y + chunkCenterY))) {
                         // load it

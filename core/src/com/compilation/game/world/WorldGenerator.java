@@ -63,16 +63,17 @@ public class WorldGenerator implements Serializable {
     private void generateOctaves() {
         // create octaves for terrain
         terrainOctaveSet = new OctaveSet();
-        terrainOctaveSet.octaves.add(new Octave(300, 1)); // continental
+        terrainOctaveSet.octaves.add(new Octave(5000, 0.8)); // continental
+        terrainOctaveSet.octaves.add(new Octave(300, 0.8)); // sub continental
 
-        for (int i = 0; i < 3; i++) {
-            terrainOctaveSet.octaves.add(new Octave(Math.pow(0.5, i) * 50, .125 * Math.pow(0.5, i)));
+        for (int i = 0; i < 4; i++) {
+            terrainOctaveSet.octaves.add(new Octave(Math.pow(0.5, i) * 50, .125 * Math.pow(0.45, i)));
         }
 
         // create octaves for temperature
         temperatureOctaveSet = new OctaveSet();
-        temperatureOctaveSet.octaves.add(new Octave(150, 1));
-        temperatureOctaveSet.octaves.add(new Octave(75, 0.4));
+        temperatureOctaveSet.octaves.add(new Octave(6000, 1));
+        temperatureOctaveSet.octaves.add(new Octave(1000, 0.4));
     }
 
     public double getTerrainHeight(long x, long y) {

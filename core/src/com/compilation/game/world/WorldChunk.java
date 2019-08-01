@@ -63,11 +63,11 @@ public class WorldChunk {
     }
 
     private TiledMapTileLayer.Cell elevationToTile(double height) {
-        if (height < -0.25)
+        if (height < -0.0)
             return containingWorld.waterDeepCell;
-        else if (height < -0.125)
+        else if (height < 0.15)
             return containingWorld.waterShallowCell;
-        else if (height < 0.125)
+        else if (height < 0.22)
             return containingWorld.sandCell;
         else
             return containingWorld.grassCell;
