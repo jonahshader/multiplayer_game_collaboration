@@ -6,39 +6,31 @@ import com.compilation.game.ecs.systems.*;
 import com.compilation.game.world.World;
 
 public class ECSEngine extends PooledEngine {
-    private AccelerationSystem accelerationSystem;
-    private ChunkAlignSystem chunkAlignSystem;
-    private PlayerControlledSystem playerControlledSystem;
-    private RenderSystem renderSystem;
-    private SpectatingSystem spectatingSystem;
-    private SpeedLimitSystem speedLimitSystem;
-    private VelocitySystem velocitySystem;
 
     public ECSEngine(OrthographicCamera cam, World world) {
         super();
-        accelerationSystem = new AccelerationSystem();
-        chunkAlignSystem = new ChunkAlignSystem();
-        playerControlledSystem = new PlayerControlledSystem();
-        renderSystem = new RenderSystem(cam);
-        spectatingSystem = new SpectatingSystem(cam, world);
-        speedLimitSystem = new SpeedLimitSystem();
-        velocitySystem = new VelocitySystem();
+        AccelerationSystem accelerationSystem = new AccelerationSystem();
+        PlayerControlledSystem playerControlledSystem = new PlayerControlledSystem();
+        RenderSystem renderSystem = new RenderSystem(cam);
+        SpectatingSystem spectatingSystem = new SpectatingSystem(cam, world);
+        SpeedLimitSystem speedLimitSystem = new SpeedLimitSystem();
+        VelocitySystem velocitySystem = new VelocitySystem();
 
         // set priorities
-        playerControlledSystem.priority = 0; // highest priority
-        accelerationSystem.priority = 1;
-        speedLimitSystem.priority = 2;
-        velocitySystem.priority = 3;
-        chunkAlignSystem.priority = 4;
-        spectatingSystem.priority = 5;
-        renderSystem.priority = 6;
+        int priority = 0;
+        playerControlledSystem.priority = priority++; // highest priority
+        accelerationSystem.priority = priority++;
+        speedLimitSystem.priority = priority++;
+        velocitySystem.priority = priority++;
+        spectatingSystem.priority = priority++;
+        renderSystem.priority = priority++; // lowest priority
+
 
         // add systems to engine
         addSystem(playerControlledSystem);
         addSystem(accelerationSystem);
         addSystem(speedLimitSystem);
         addSystem(velocitySystem);
-        addSystem(chunkAlignSystem);
         addSystem(spectatingSystem);
         addSystem(renderSystem);
     }
