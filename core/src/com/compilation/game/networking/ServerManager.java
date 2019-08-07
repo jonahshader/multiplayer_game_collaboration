@@ -17,7 +17,7 @@ public class ServerManager {
         server = new Server();
         server.start();
         try {
-            server.bind(29383, 29383);
+            server.bind(PORT, PORT);
         } catch (IOException e) {
             e.printStackTrace();
         }
