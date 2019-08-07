@@ -6,6 +6,24 @@ import com.compilation.game.ecs.systems.*;
 import com.compilation.game.world.World;
 
 public class ECSEngine extends PooledEngine {
+    /*
+    TODO: writing some notes here. will remove later.
+    make two ECSEngine instances, one that is for client generated entities that are trying to transfer ownership
+    to the server. the other instance recieves entities from the server, where evey entity should end up.
+
+    for the client to create an entity, it first creates it in the client side ECSEngine with a component
+    that identifies this user/computer (probably by account or IP). a system then sends this new entity to the
+    server. when the server receives this entity, it adds a UUID component to it, removes the id component,
+    and returns it to the client. the client then adds it to its server ECSEngine.
+
+    as for the ID component, identifying the player via ip may be better than via login, because login can
+    be variable whereas ip is roughly the same length. if we did it via username, a user with a long username
+    might be put at a disadvantage.
+
+    however, this could be a security issue. username and passworld might be needed for all communications so that
+    the server knows it is giving out information to the correct player and isn't giving a hacker information it
+    shouldn't have.
+     */
 
     public ECSEngine(OrthographicCamera cam, World world) {
         super();
