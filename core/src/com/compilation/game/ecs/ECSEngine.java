@@ -3,10 +3,13 @@ package com.compilation.game.ecs;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.compilation.game.ecs.components.NetworkTransmitID;
 import com.compilation.game.ecs.systems.*;
 import com.compilation.game.world.World;
 
 import java.util.HashMap;
+import java.util.Random;
+import java.util.SplittableRandom;
 
 public class ECSEngine extends PooledEngine {
     /*
@@ -28,12 +31,17 @@ public class ECSEngine extends PooledEngine {
     shouldn't have.
      */
 
+    public final static Random random = new Random();
+
     private HashMap<Long, Entity> uuidToEntityMap;
+    private HashMap<Integer, Entity> localIDToEntityMap;
 
     public ECSEngine(OrthographicCamera cam, World world) {
         super();
         uuidToEntityMap = new HashMap<>();
+        localIDToEntityMap = new HashMap<>();
         AccelerationSystem accelerationSystem = new AccelerationSystem();
+        NetworkTransmitIDSystem nidSystem = new NetworkTransmitIDSystem(localIDToEntityMap);
         PlayerControlledSystem playerControlledSystem = new PlayerControlledSystem();
         RenderSystem renderSystem = new RenderSystem(cam);
         SpectatingSystem spectatingSystem = new SpectatingSystem(cam, world);
@@ -42,13 +50,15 @@ public class ECSEngine extends PooledEngine {
 
         // set priorities
         int priority = 0;
-        playerControlledSystem.priority = priority++; // highest priority
+        // highest priority
+        playerControlledSystem.priority = priority++;
         accelerationSystem.priority = priority++;
         speedLimitSystem.priority = priority++;
         velocitySystem.priority = priority++;
         spectatingSystem.priority = priority++;
-        renderSystem.priority = priority++; // lowest priority (higher number = happens later, lower priority)
-
+        renderSystem.priority = priority++;
+        nidSystem.priority = priority++; // not sure if priority matters on this one
+        // lowest priority (higher number = happens later, lower priority)
 
         // add systems to engine
         addSystem(playerControlledSystem);
@@ -57,5 +67,28 @@ public class ECSEngine extends PooledEngine {
         addSystem(velocitySystem);
         addSystem(spectatingSystem);
         addSystem(renderSystem);
+        addSystem(nidSystem);
+    }
+
+//    public void addEntityQueuedForServer(Entity entity) {
+//        NetworkTransmitID id = createComponent(NetworkTransmitID.class);
+//        id.localID = generateIntUUID(localIDToEntityMap);
+//        entity.add(id);
+//    }
+
+    public static int generateIntUUID(HashMap<Integer, Entity> container) {
+        int id = 0;
+        while (container.containsKey(id)) {
+            id = random.nextInt();
+        }
+        return id;
+    }
+
+    public static long generateLongUUID(HashMap<Long, Entity> container) {
+        long id = 0;
+        while (container.containsKey(id)) {
+            id = random.nextLong();
+        }
+        return id;
     }
 }

@@ -4,12 +4,13 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Pool;
 
 public class NetworkTransmitID implements Component, Pool.Poolable {
-    public String username, password;
-    public long localID;
+    public int localID;
+
+    public NetworkTransmitID() {
+    }
 
     @Override
     public void reset() {
-        username = null;
-        password = null;
+        localID = 0;
     }
 }

@@ -1,6 +1,8 @@
 package com.compilation.game.networking;
 
 import com.badlogic.ashley.core.Entity;
+import com.compilation.game.ecs.components.*;
+import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -15,6 +17,7 @@ public class ServerManager {
 
     public ServerManager() {
         server = new Server();
+        registerClasses(server.getKryo());
         server.start();
         try {
             server.bind(PORT, PORT);
@@ -32,5 +35,20 @@ public class ServerManager {
                 }
             }
         });
+    }
+
+    public static void registerClasses(Kryo kryo) {
+        kryo.register(Entity.class);
+//        kryo.register(Acceleration.class);
+//        kryo.register(CollisionBox.class);
+//        kryo.register(Graphic.class);
+//        kryo.register(MaxSpeed.class);
+//        kryo.register(NetworkTransmitID.class);
+//        kryo.register(PlayerControlled.class);
+//        kryo.register(Position.class);
+//        kryo.register(Spectating.class);
+//        kryo.register(Trigger.class);
+//        kryo.register(UUID.class);
+//        kryo.register(Velocity.class);
     }
 }
