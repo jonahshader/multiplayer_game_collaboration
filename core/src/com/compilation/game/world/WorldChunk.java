@@ -1,5 +1,6 @@
 package com.compilation.game.world;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapRenderer;
@@ -10,6 +11,7 @@ import com.compilation.game.MainGame;
 import com.compilation.game.managers.SqlManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class WorldChunk {
     public static final int CHUNK_TILE_SIZE = 64;
@@ -22,10 +24,11 @@ public class WorldChunk {
     private TiledMap map;
     private MapRenderer mapRenderer;
     private MainGame game;
-    private ArrayList<WorldChunk> neighboringChunks;
     private World containingWorld;
     private WorldGenerator worldGen;
     private TiledMapTileLayer background, foreground;
+
+    private HashMap<Long, Entity> entityDictionary;
 
     private boolean[][] collisionData; // 2d boolean array for fast access for collision detection
     private float[][] elevationData;
@@ -40,7 +43,8 @@ public class WorldChunk {
         this.worldGen = worldGen;
         this.containingWorld = containingWorld;
 
-        neighboringChunks = new ArrayList<>(8);
+        entityDictionary = new HashMap<>();
+
         map = new TiledMap();
         elevationData = new float[CHUNK_TILE_SIZE][CHUNK_TILE_SIZE];
 
@@ -135,10 +139,6 @@ public class WorldChunk {
         return true;
     }
 
-    public void addNeighboringChunk(WorldChunk neighbor) {
-        neighboringChunks.add(neighbor);
-    }
-
     public int getXInUnits() {
         return x * CHUNK_TILE_SIZE;
     }
@@ -157,6 +157,10 @@ public class WorldChunk {
 
     public String getKey() {
         return x + " " + y;
+    }
+
+    public HashMap<Long, Entity> getEntityDictionary() {
+        return entityDictionary;
     }
 
     public static String coordToKey(int x, int y) {

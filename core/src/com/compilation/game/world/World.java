@@ -94,4 +94,8 @@ public class World {
         }
     }
 
+    public WorldChunk getChunk(int x, int y) {
+        return chunkDictionary.get(WorldChunk.coordToKey(x, y));
+    }
+
 }

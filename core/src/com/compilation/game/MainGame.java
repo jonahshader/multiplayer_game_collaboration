@@ -21,8 +21,14 @@ public class MainGame extends Game {
 
 	@Override
 	public void create() {
+		batch = new SpriteBatch();
+		shapeBatch = new ShapeRenderer();
+		fontManager = new FontManager();
+		multiplexer = new InputMultiplexer();
+		//sql = new SqlManager();
 
-		sql = new SqlManager();
+		Gdx.input.setInputProcessor(multiplexer);
+		setScreen(new MainMenuScreen(this)); //bypass login for testing
 
 		try
 		{
@@ -34,13 +40,8 @@ public class MainGame extends Game {
 			System.out.println("Unable to connect to the sql database");
 		}
 
-		batch = new SpriteBatch();
-		shapeBatch = new ShapeRenderer();
-		fontManager = new FontManager();
-		multiplexer = new InputMultiplexer();
-		Gdx.input.setInputProcessor(multiplexer);
+
 //		setScreen(new LoginScreen(this));
-		setScreen(new MainMenuScreen(this)); //bypass login for testing
 	}
 
 	@Override
